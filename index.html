@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background-color: green;
+    color: white;
+    padding: 10px 5px;
+    text-align: center;
+  }
+  h1 { 
+    color: rgb(255, 255, 255);
+    padding: 0 0.1em;
+    font-size: 2em;
+  }
+  main {
+    padding: 20px;
+  }
+  #quote-container {
+    background-color: rgb(226, 176, 126);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+  button {
+    background-color: rgb(0, 153, 255);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  #footer {
+    background-color: #35424a;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+  #quote-display-container {
+    padding: 0.5em;
+    border-radius: 0.5em;
+    background-color: #EEE;
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: #35424a;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    margin-bottom: 1em;
+  }
+  #quote-display {
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+  #quote-display.visible {
+    opacity: 1;
+  }
+  .image-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .chat-bubble {
+    position: absolute;
+    right: 48px;
+    width: 10px;
+    height: 10px;
+    border-radius: 15px;
+    background: #FFF;
+  }
+  .chat-bubble2 {
+    position: absolute;
+    margin-top: -1rem;
+    right: 42px;
+    width: 8px;
+    height: 8px;
+    border-radius: 15px;
+    background: #FFF;
+  }
+</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple quote generator">
+  <title>Legend of Miesta</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>The Legend of Miesta</h1>
+  </header>
+  <main>
+    <div id="quote-container">
+      <div id="quote-display-container">
+        <p id="quote-display"></p>
+      </div>
+      <div class="chat-bubble"></div>
+      <div class="chat-bubble2"></div>
+      <div class="image-container">
+        <img src="miesta.png" />
+      </div>
+      <button id="generate-quote-button">Receive Wisdom</button>
+    </div>
+
+    <div>
+      <p style="font-size:0.7em;">Miesta is a fictional character, based on a real person, who is known for his humorous and often nonsensical quotes. This quote generator is a fun way to share some of his most memorable lines.</p>
+      </p>
+    </div>
+    
+  </main>
+  <footer id="footer">
+    <p>&copy; 2025 Kimchi Productions</p>
+  </footer>
+  <script>
+    let isGenerating = false;
+
+    const quoteDisplay = document.getElementById('quote-display');
+    const quoteContainer = document.getElementById('quote-container');
+    const button = document.getElementById('generate-quote-button');
+
+    const quotes = [
+      "Make it stahppp...",
+      "There's two types of people in the world. Are you a wolf or a sheep?",
+      "I can dance all day, I can dance all day, try and hit me n00b!",
+      "I am a mechanical man!",
+      "Let's cut all the bullshit. I don't like you and you don't like me. Wait hold on.. you like me?",
+      "There's a problem in sector 8.",
+      "Sweet dreams are made of these... Who am I to disagree?",
+      "Hello darkness my old friend...",
+    ];
+
+    button.addEventListener('click', () => {
+      if (isGenerating) return;
+
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      quoteDisplay.textContent = randomQuote;
+
+      quoteDisplay.classList.add('visible');
+
+      setTimeout(() => {
+        quoteDisplay.classList.remove('visible');
+        isGenerating = false;
+      }, 3000);
+
+      isGenerating = true;
+    });
+  </script>
+</body>
+</html>
