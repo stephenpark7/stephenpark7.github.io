@@ -24,27 +24,51 @@ Should fire the AWP
     padding: 0;
   }
   header {
-    background-color: green;
+    background: linear-gradient(to right, rgb(9, 100, 9), rgb(13, 164, 61));
     color: white;
-    padding: 10px 5px;
+    padding: 10px 10px;
     text-align: center;
+    min-height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.15);
   }
   h1 { 
     color: rgb(255, 255, 255);
     padding: 0 0.1em;
     font-size: 2em;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration-color: rgb(255, 255, 255);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
   }
   main {
     padding: 20px;
+    margin-top: 20px;
   }
   #quote-container {
     background-color: rgb(226, 176, 126);
-    border-radius: 5px;
+    border-radius: 15px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 20px;
+    padding: 40px 40px;
     text-align: center;
     overflow: hidden;
     transition: height 0.3s ease;
+  }
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 20px;
   }
   button {
     background-color: rgb(0, 153, 255);
@@ -53,6 +77,20 @@ Should fire the AWP
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
+  }
+  button:hover {
+    background-color: rgb(0, 120, 200);
+    cursor: crosshair;
+  }
+  button:active {
+    background-color: rgb(0, 90, 150);
+  }
+  button:focus {
+    outline: none;
+  }
+  button:disabled {
+    background-color: rgb(200, 200, 200);
+    cursor: not-allowed;
   }
   #footer {
     background-color: #35424a;
@@ -64,7 +102,7 @@ Should fire the AWP
     bottom: 0;
   }
   #quote-display-container {
-    padding: 0.5em;
+    padding: 0.5em 1em;
     border-radius: 0.5em;
     background-color: #EEE;
     font-size: 1.5em;
@@ -90,6 +128,14 @@ Should fire the AWP
     align-items: center;
     margin-top: 20px;
   }
+  .chat-bubble-container {
+    position: relative;
+    right: -20px;
+    top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .chat-bubble {
     position: absolute;
     right: 48px;
@@ -100,12 +146,38 @@ Should fire the AWP
   }
   .chat-bubble2 {
     position: absolute;
-    margin-top: -1rem;
-    right: 42px;
+    right: 41px;
+    top: -17px;
     width: 8px;
     height: 8px;
     border-radius: 15px;
     background: #FFF;
+  }
+  .chat-bubble3 {
+    position: absolute;
+    right: 36px;
+    top: -28px;
+    width: 6px;
+    height: 6px;
+    border-radius: 15px;
+    background: #FFF;
+  }
+  .fire-animation {
+    animation: fire 1s forwards;
+  }
+  @keyframes fire {
+    0% {
+      background-color: rgb(226, 176, 126);
+      transform: scale(1);
+    }
+    50% {
+      background-color: rgb(255, 69, 0);
+      transform: scale(0.9);
+    }
+    100% {
+      background-color: rgb(226, 176, 126);
+      transform: scale(1);
+    }
   }
 </style>
 <head>
@@ -124,22 +196,28 @@ Should fire the AWP
       <div id="quote-display-container">
         <p id="quote-display"></p>
       </div>
-      <div class="chat-bubble"></div>
-      <div class="chat-bubble2"></div>
+      <div class="chat-bubble-container">
+        <div class="chat-bubble"></div>
+        <div class="chat-bubble2"></div>
+        <div class="chat-bubble3"></div>
+      </div>
       <div class="image-container">
+        <div class="fire-animation"></div>
         <img src="miesta.png" />
       </div>
-      <button id="generate-quote-button">Receive Wisdom</button>
+      <div class="button-container">
+        <button id="generate-quote-button">Invoke Wisdom</button>
+      </div>
     </div>
 
     <div>
-      <p style="font-size:0.7em;">Miesta is a fictional character, based on a real person, who is known for his humorous and often nonsensical quotes. This quote generator is a fun way to share some of his most memorable lines.</p>
+      <p style="font-size:0.45em;">DISCLAIMER: This website is purely for entertainment purposes. Miesta is a fictional character inspired by a friend of mine who is known for humorous and quirky quotes. The quote generator is a playful way to showcase some of these memorable lines.</p>
       </p>
     </div>
     
   </main>
   <footer id="footer">
-    <p>&copy; 2025 Kimchi Productions</p>
+    <p class="kimchi-text">&copy; 2025 Kimchi Productions</p>
   </footer>
   <script>
     let isGenerating = false;
@@ -148,29 +226,99 @@ Should fire the AWP
     const quoteContainer = document.getElementById('quote-container');
     const button = document.getElementById('generate-quote-button');
 
+    // AWP sound
+    const awpSound = new Audio('audio/awp.mp3');
+
+    // Audio sounds
+    const audioSounds = [
+      [
+        'bullshit.mp3',
+        'famous-potter.mp3',
+        'hello-darkness.m4a',
+        'mechanical-man.mp3',
+        'potter-gf.mp3',
+        'problem.m4a',
+        'sweetdreams.m4a',
+        'wolf.m4a',
+        'dance.m4a',
+        'hello-brother.m4a',
+        'make-it-stop.m4a',
+        'donkey-kong.m4a', // 12
+      ],
+      [
+        8000, // 1
+        8000, // 2
+        8000, // 3 
+        5000, // 4
+        8000, // 5
+        8000, // 6
+        15000,// 7
+        8000, // 8
+        5000, // 9
+        5000, // 10
+        5000, // 11
+        5000, // 12
+      ]
+  ]
+
     const quotes = [
-      "Make it stahppp...",
+      "Alright. Let's cut all the bullshit. I don't like you and you don't like me. Wait hold on.. you like me?",
+      "Famous Harry Potter, can't even go into a bookshop without making the front page.",
+      "Hello darkness, my old friend.",
+      "I am a mechanical man!",
+      "Oh look, Potter, you've got yourself a girlfriend.",
+      "Kyle.. There's a problem in sector 8.",
+      "Sweet dreams are made of these... Who am I to disagree?",
       "There's two types of people in the world. Are you a wolf or a sheep?",
       "I can dance all day, I can dance all day, try and hit me n00b!",
-      "I am a mechanical man!",
-      "Let's cut all the bullshit. I don't like you and you don't like me. Wait hold on.. you like me?",
-      "There's a problem in sector 8.",
-      "Sweet dreams are made of these... Who am I to disagree?",
-      "Hello darkness my old friend...",
+      "Hello, brother.",
+      "Make it stahppp...",
+      "Oh it's on, like Donkey Kong.",
+      // "Don't make me lawyer you Kyle",
     ];
 
     button.addEventListener('click', () => {
       if (isGenerating) return;
 
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      quoteDisplay.textContent = randomQuote;
+      // Play the AWP sound
+      awpSound.currentTime = 0; // Reset sound to start
+      awpSound.play();
+      awpSound.volume = 0.025;
 
-      quoteDisplay.classList.add('visible');
+      // Play fire animation
+      quoteContainer.classList.add('fire-animation');
 
       setTimeout(() => {
-        quoteDisplay.classList.remove('visible');
-        isGenerating = false;
-      }, 3000);
+        quoteContainer.classList.remove('fire-animation');
+      }, 1000);
+
+      setTimeout(() => {
+        // Display a random quote
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        
+        const randomQuote = quotes[randomIndex];
+        quoteDisplay.textContent = randomQuote;
+
+        // Play correct audio sound
+        const audioIndex = randomIndex % audioSounds[0].length;
+
+        const audio = new Audio('audio/' + audioSounds[0][audioIndex]);
+
+        audio.currentTime = 0; // Reset sound to start
+
+        audio.play();
+        audio.volume = 0.5;
+
+        // Show the quote
+        quoteDisplay.classList.add('visible');
+
+        setTimeout(() => {
+          quoteDisplay.classList.remove('visible');
+          isGenerating = false;
+        }, audioSounds[1][audioIndex]);
+      }, 1000);
+
+
 
       isGenerating = true;
     });
